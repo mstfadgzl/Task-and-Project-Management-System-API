@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const projectController = require('../controllers/projectController');
+const projectController = require('../controllers/projectController.js');
 const taskController = require('../controllers/taskController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // Proje işlemleri
-router.post('/', projectController.createProject);
+router.post('/',authMiddleware.verifyToken,authMiddleware.isAdmin, projectController.createProject);
 router.get('/:projectId', projectController.getProjectById);
 router.get('/:projectId/stats', projectController.getProjectStats);
 
